@@ -55,6 +55,56 @@
 
 // EXPERIMENT 4
 
+// use primes::{PrimeSet, Sieve};
+
+// // Function to find all combinations of primes that sum to a target number
+// fn find_prime_sums(primes: &Vec<u64>, target: u64) -> Vec<Vec<u64>> {
+//     let mut result = Vec::new();
+//     let mut current_combination = Vec::new();
+//     helper(primes, target, 0, &mut current_combination, &mut result);
+//     result
+// }
+
+// fn helper(
+//     primes: &Vec<u64>,
+//     target: u64,
+//     start_index: usize,
+//     current_combination: &mut Vec<u64>,
+//     result: &mut Vec<Vec<u64>>
+// ) {
+//     if target == 0 {
+//         result.push(current_combination.clone());
+//         return;
+//     }
+
+//     for i in start_index..primes.len() {
+//         if primes[i] > target {
+//             return;
+//         }
+//         current_combination.push(primes[i]);
+//         helper(primes, target - primes[i], i, current_combination, result);  // Ensure no overflow here
+//         current_combination.pop();
+//     }
+// }
+
+// fn main() {
+//     // Set a limit up to which we want to generate prime numbers
+//     let limit = 50;
+//     let mut s = Sieve::new();
+//     let primes: Vec<u64> = s.iter().take_while(|p| *p <= limit).collect();
+
+//     // Print each prime and its representation as a sum of the smallest primes
+//     for &prime in &primes {
+//         let combinations = find_prime_sums(&primes, prime);
+//         println!("Prime: {}\nCombinations:", prime);
+//         for combination in combinations {
+//             println!("{:?} = {}", combination, combination.iter().sum::<u64>());
+//         }
+//     }
+// }
+
+// EXPERIMENT 5
+
 use primes::{PrimeSet, Sieve};
 
 // Function to find all combinations of primes that sum to a target number
@@ -82,14 +132,14 @@ fn helper(
             return;
         }
         current_combination.push(primes[i]);
-        helper(primes, target - primes[i], i, current_combination, result);  // Ensure no overflow here
+        helper(primes, target - primes[i], i + 1, current_combination, result);  // Move to the next prime
         current_combination.pop();
     }
 }
 
 fn main() {
     // Set a limit up to which we want to generate prime numbers
-    let limit = 50;
+    let limit = 1000;
     let mut s = Sieve::new();
     let primes: Vec<u64> = s.iter().take_while(|p| *p <= limit).collect();
 
