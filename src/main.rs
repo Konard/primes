@@ -167,7 +167,7 @@ fn main() {
         if !can_generate_prime(&primes, prime) {
             panic!("Cannot generate prime {} using the specified rule", prime);
         }
-        // if prime > 10 {
+        // if prime > 120 {
         //     return;
         // }
     }
@@ -175,18 +175,34 @@ fn main() {
 
 fn can_generate_prime(primes: &[u64], prime: u64) -> bool {
     let i = primes.len() - 2;
+    let previous_prime = primes[i];
+    let difference = prime - previous_prime;
+    
     for j in (0..i+1).rev() {
-        let sum = primes[i] + primes[j];
+        if primes[j] > difference {
+            continue;
+        }
+        let sum = previous_prime + primes[j];
         if sum == prime {
-            println!("{} = {} + {}", prime, primes[i], primes[j]);
+            if primes[j] == 2 {
+                println!("{} = {} + 1 + 1", prime, previous_prime);
+            } else {
+                println!("{} = {} + {}", prime, previous_prime, primes[j]);
+            }
+            if primes[j] > 2 {
+                panic!("This is greater than 2.");
+            }
             return true;
         }
         for k in (0..j+1).rev() {
             if sum + primes[k] == prime {
-                // if primes[k] > 5 {
-                //     panic!("Last element of the sum is {}.", primes[k]);
-                // }
-                println!("{} = {} + {} + {}", prime, primes[i], primes[j], primes[k]);
+                if primes[k] > 13 {
+                    panic!("Last element of the sum is {}.", primes[k]);
+                }
+                println!("{} = {} + {} + {}", prime, previous_prime, primes[j], primes[k]);
+                if primes[j] == 2 && primes[k] == 1 {
+                    panic!("2 + 1");
+                }
                 return true;
             }
         }
