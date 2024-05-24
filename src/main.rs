@@ -164,33 +164,30 @@ fn main() {
 
     while let Some(prime) = iter.next() {
         primes.push(prime);
-        if prime > 2 && !can_generate_prime(&primes, prime) {
+        if !can_generate_prime(&primes, prime) {
             panic!("Cannot generate prime {} using the specified rule", prime);
         }
+        // if prime > 10 {
+        //     return;
+        // }
     }
 }
 
 fn can_generate_prime(primes: &[u64], prime: u64) -> bool {
-    for i in (0..primes.len() - 1).rev() {
-        if primes[i] == prime {
-            continue;
+    let i = primes.len() - 2;
+    for j in (0..i+1).rev() {
+        let sum = primes[i] + primes[j];
+        if sum == prime {
+            println!("{} = {} + {}", prime, primes[i], primes[j]);
+            return true;
         }
-        for j in (0..i).rev() {
-            if primes[j] == prime {
-                continue;
-            }
-            if primes[i] + primes[j] == prime {
-                println!("{} = {} + {}", prime, primes[i], primes[j]);
+        for k in (0..j+1).rev() {
+            if sum + primes[k] == prime {
+                // if primes[k] > 5 {
+                //     panic!("Last element of the sum is {}.", primes[k]);
+                // }
+                println!("{} = {} + {} + {}", prime, primes[i], primes[j], primes[k]);
                 return true;
-            }
-            for k in (0..j).rev() {
-                if primes[k] == prime {
-                    continue;
-                }
-                if primes[i] + primes[j] + primes[k] == prime {
-                    println!("{} = {} + {} + {}", prime, primes[i], primes[j], primes[k]);
-                    return true;
-                }
             }
         }
     }
