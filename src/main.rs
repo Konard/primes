@@ -163,13 +163,14 @@ fn main() {
     let mut iter = pset.iter();
 
     while let Some(prime) = iter.next() {
+        println!("{}", format!("{prime:b}"));
         primes.push(prime);
         if !can_generate_prime(&primes, prime) {
             panic!("Cannot generate prime {} using the specified rule", prime);
         }
-        // if prime > 120 {
-        //     return;
-        // }
+        if prime > 120 {
+            return;
+        }
     }
 }
 
